@@ -30,6 +30,23 @@ class OrderController extends Controller
 //        $orders = DB::table('orders')->get();
         $orders = Order::all();
 
+        Log::info('test cheolwon', ['Foo' => 'Bar']);
+        Log::debug('test cheolwon', ['Foo' => 'Bar']);
+        Log::alert('test cheolwon', ['Foo' => 'Bar']);
+        Log::critical('test cheolwon', ['Foo' => 'Bar']);
+        Log::emergency('test cheolwon', ['Foo' => 'Bar']);
+        Log::error('test cheolwon', ['Foo' => 'Bar']);
+        Log::notice('test cheolwon', ['Foo' => 'Bar']);
+        Log::warning('test cheolwon', ['Foo' => 'Bar']);
+
+//        $logger = Log::getMonolog();
+
+        /*Log::getMonolog()->pushProcessor(function ($record) {
+//            $record['extra']['session_id'] = Cookie::get(Config::get('session.cookie'));
+            $record['extra']['session_id'] = 'test';
+            return $record;
+        });*/
+
         return new Response([
             'orders'    => $orders,
             'message'   => sprintf("This is %s method", __FUNCTION__)
