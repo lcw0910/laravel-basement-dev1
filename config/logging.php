@@ -36,7 +36,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily'],
+            'channels' => ['daily', 'slack'],
         ],
 
         'single' => [
@@ -55,8 +55,9 @@ return [
 
         'slack' => [
             'driver' => 'slack',
+            'tap' => [App\Logging\CustomFormatter::class],
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'Laravel Log',
+            'username' => 'mabsosa',
             'emoji' => ':boom:',
             'level' => 'critical',
         ],
