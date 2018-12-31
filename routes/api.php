@@ -32,3 +32,25 @@ Route::prefix('order')->group(function () {
     Route::delete('/', 'OrderController@delete');
 
 });
+
+Route::prefix('proxy')->group(function () {
+
+    Route::prefix('v2')->group(function () {
+
+        Route::prefix('product')->group(function () {
+            Route::get('/', 'Proxy\CAPI\v2\Product@search')->middleware('request.validator');
+        });
+        Route::prefix('shop')->group(function () {
+            Route::get('/', 'Proxy\CAPI\v2\Shop@search')->middleware('request.validator');
+        });
+
+    });
+
+    // V2x Test
+    /*Route::prefix('v2x')->group(function () {
+        Route::get('product/search', function () {
+            return 'v2x test';
+        });
+    });*/
+
+});

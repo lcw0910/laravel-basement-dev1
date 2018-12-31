@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Monolog\Logger;
 
 class OrderController extends Controller
 {
@@ -26,8 +27,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::where('id', '<', 44)->paginate(2, ['*'], 'page', 2);
-
+        $orders = Order::where('id', '<', 44)->paginate(2, ['*'], 'page', 1);
         return new Response($orders);
     }
 

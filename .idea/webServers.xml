@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="9c171c13-cc03-4af4-8378-6bbb820794bb" name="Laradock SSH" url="http://dev1-web.yicheolwon.xyz">
+        <fileTransfer host="10.0.75.1" port="2222" privateKey="C:\Users\7040_64bit\Project\docker\laradock\workspace\insecure_id_rsa.ppk" rootFolder="/var/www/dev1" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="2222" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
