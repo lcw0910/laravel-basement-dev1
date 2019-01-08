@@ -2,8 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\ApiException;
+use App\Http\Validator\ShopValidator;
+use App\Http\Validator\ValidatorAbstract;
 use Closure;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class RequestParameterVerified
 {
@@ -16,11 +20,31 @@ class RequestParameterVerified
      */
     public function handle($request, Closure $next)
     {
-        $rule = $this->rule($request->getPathInfo());
-        $validator = Validator::make($request->all(), $rule);
-        if ($validator->fails()) {
-            return response($validator->errors()->toJson(), 400, ['Content-Type' => 'application/json']);
+        // Regist Validate Group
+        $validateGroup = [
+            'shop' => ShopValidator::class
+        ];
+
+        try {
+            $routeName = explode('.', Route::currentRouteName());
+            $className = $routeName[0];
+            if (empty($className) || !isset($validateGroup[$className])) {
+                throw new ApiException(
+                    500,
+                    sprintf("Undefined validator : %s %s", $request->getMethod(), $request->getPathInfo())
+                );
+            }
+
+            /**
+             * @var ValidatorAbstract $validator
+             */
+            $validator = new $validateGroup[$className]();
+            $validated = $validator->validate($request);
+
+        } catch (ApiException $exception) {
+            return $exception->render($request, $exception);
         }
+
         return $next($request);
     }
 
@@ -36,6 +60,10 @@ class RequestParameterVerified
                     'mall_id' => 'required',
                     'shop_no' => 'required',
                 ];
+                break;
+            case '/v1/shops':
+                $validator = new ShopValidator();
+                $validator->rule();
                 break;
             default:
                 return false;

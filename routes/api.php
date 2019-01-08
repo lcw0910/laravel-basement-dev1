@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::prefix('order')->group(function () {
+/*Route::prefix('order')->group(function () {
 
     // Mapping to OrderController@store
     Route::post('/', 'OrderController@store');
@@ -31,6 +31,12 @@ Route::prefix('order')->group(function () {
 
     Route::delete('/', 'OrderController@delete');
 
+});*/
+
+Route::prefix('v1')->middleware('request.validator')->group(function () {
+    Route::prefix('shops')->group(function () {
+        Route::post('/', 'ShopController@regist')->name('shop.regist');
+    });
 });
 
 Route::prefix('proxy')->group(function () {
@@ -45,12 +51,5 @@ Route::prefix('proxy')->group(function () {
         });
 
     });
-
-    // V2x Test
-    /*Route::prefix('v2x')->group(function () {
-        Route::get('product/search', function () {
-            return 'v2x test';
-        });
-    });*/
 
 });
