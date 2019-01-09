@@ -12,8 +12,9 @@ namespace App\Http\Validator;
 
 class ProxyValidator extends ValidatorAbstract
 {
-    public function rule(): array
+    public function rule(string $routeName): array
     {
 
     }
+
 }

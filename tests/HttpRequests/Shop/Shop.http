@@ -3,7 +3,11 @@ POST http://{{host}}/{{version}}/{{division}}
 Content-Type: application/json
 
 {
-  "Foo": "Bar"
+  "mall_id": "bpmt001"
 }
+
+### Shop Find One
+GET http://{{host}}/{{version}}/{{division}}/1
+Accept: application/json
 
 ###

@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Exception;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -29,8 +31,9 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
-     * @return void
+     * @param Exception $exception
+     * @return mixed|void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -46,6 +49,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ClientException) {
+            return response()->json(
+                [
+                    'message' => 'CAPIv2 Client Error'
+                ],
+                $exception->getCode()
+            );
+        } elseif ($exception instanceof QueryException) {
+            return response()->json(
+                [
+                    'message' => 'Internal Error (QueryException)'
+                ],
+                500
+            );
+        }
         return parent::render($request, $exception);
     }
 }

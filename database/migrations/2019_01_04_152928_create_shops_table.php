@@ -40,16 +40,17 @@ class CreateShopsTable extends Migration
             $table->char('currency', 3)
                 ->comment('통화');
 
-            $table->string('currency_name', 10)
+            $table->string('currency_name', 25)
                 ->comment('통화명');
 
             $table->char('sub_currency', 3)->nullable()
                 ->comment('(Sub)통화');
 
-            $table->string('sub_currency_name', 10)->nullable()
+            $table->string('sub_currency_name', 25)->nullable()
                 ->comment('(Sub)통화명');
 
             $table->integer('timezone')
+                ->nullable()
                 ->comment('타임존');
 
             $table->integer('default_skin_no')

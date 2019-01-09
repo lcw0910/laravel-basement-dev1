@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
 
 
 /*Route::prefix('order')->group(function () {
@@ -33,23 +33,26 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 });*/
 
-Route::prefix('v1')->middleware('request.validator')->group(function () {
+Route::prefix('v1')->group(function () {
     Route::prefix('shops')->group(function () {
+
         Route::post('/', 'ShopController@regist')->name('shop.regist');
+
+        Route::get('/{id}', 'ShopController@findOne')->name('shop.findOne');
+        /*Route::get('/{id}', function ($id) {
+            return \App\Models\Shop::where('id', $id)->get();
+        })->name('shop.get');*/
+
     });
 });
 
 Route::prefix('proxy')->group(function () {
-
     Route::prefix('v2')->group(function () {
-
         Route::prefix('product')->group(function () {
-            Route::get('/', 'Proxy\CAPI\v2\Product@search')->middleware('request.validator');
+            Route::get('/', 'Proxy\CAPI\v2\Product@search')->name('proxy.v2.product.search');
         });
         Route::prefix('shop')->group(function () {
-            Route::get('/', 'Proxy\CAPI\v2\Shop@search')->middleware('request.validator');
+            Route::get('/', 'Proxy\CAPI\v2\Shop@search')->name('proxy.v2.shop.search');
         });
-
     });
-
 });
