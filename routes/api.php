@@ -39,9 +39,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/', 'ShopController@regist')->name('shop.regist');
 
         Route::get('/{id}', 'ShopController@findOne')->name('shop.findOne');
-        /*Route::get('/{id}', function ($id) {
-            return \App\Models\Shop::where('id', $id)->get();
-        })->name('shop.get');*/
+
+        Route::get('/', 'ShopController@findMany')->name('shop.findMany');
 
     });
 });

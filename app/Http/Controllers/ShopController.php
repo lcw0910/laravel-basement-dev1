@@ -83,9 +83,53 @@ class ShopController extends Controller
     public function findOne(int $id)
     {
         $result = DB::table('shops')->where('id', $id)->get();
+//        $result = Shop::where('id', $id)->get();
         if ($result->count() === 0) {
             return response()->noContent();
         }
+        return $result;
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws ApiException
+     */
+    public function findMany(Request $request)
+    {
+        $params = $this->validator->validate($request);
+
+        $query = DB::table('shops');
+
+        foreach($params as $column => $value) {
+            switch ($column) {
+                case 'deleted_at':
+                case 'updated_at':
+                case 'created_at':
+                    $allowOperator = [
+                        'lt'    => '>',
+                        'lte'   => '>=',
+                        'gt'    => '<',
+                        'gte'   => '<='
+                    ];
+                    foreach ($value as $operator => $datetime) {
+                        if (isset($allowOperator[$operator])) {
+                            $query = $query->whereDate($column, $allowOperator[$operator], $datetime);
+                        }
+                    }
+                    break;
+                case 'id':
+                case 'mall_id':
+                case 'shop_no':
+                    if (is_array($value)) {
+                        $query = $query->whereIn($column, $value);
+                    } else {
+                        $query = $query->where($column, $value);
+                    }
+                    break;
+            }
+        }
+        $result = $query->paginate(10, ['*'], 'page', 1);
         return $result;
     }
 }

@@ -27,17 +27,6 @@ class ApiException extends Exception
     }
 
     /**
-     * @param $request
-     * @param Exception $exception
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    /*public function render(Request $request, Exception $exception)
-    {
-        return response($this->errors , $this->code);
-    }*/
-
-
-    /**
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function render()

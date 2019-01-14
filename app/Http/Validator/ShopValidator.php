@@ -23,6 +23,16 @@ class ShopValidator extends ValidatorAbstract
         $rules = [
             'shop.regist' => [
                 'mall_id' => 'required'
+            ],
+            'shop.findMany' => [
+                'id'                => 'required_without:mall_id',
+                'mall_id'           => 'required_without:id',
+                'shop_no'           => 'integer',
+                'created_at.*'      => 'date',
+                'created_at.lt'     => 'date|before:created_at.gt',
+                'created_at.gt'     => 'date|after:created_at.lt',
+                'created_at.lte'    => 'date|before_or_equal:created_at.gte',
+                'created_at.gte'    => 'date|after_or_equal:created_at.lte',
             ]
         ];
         if (! isset($rules[$routeName])) {

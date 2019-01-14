@@ -3,11 +3,29 @@ POST http://{{host}}/{{version}}/{{division}}
 Content-Type: application/json
 
 {
-  "mall_id": "bpmt001"
+  "mall_id": "bpmt001s"
 }
 
 ### Shop Find One
 GET http://{{host}}/{{version}}/{{division}}/1
 Accept: application/json
+
+### Shop Find Many
+GET http://{{host}}/{{version}}/{{division}}
+Accept: application/json
+Content-Type: application/json
+
+{
+//  "id": 1,
+  "mall_id": "bpmt001",
+//  "shop_no": 2,
+  "created_at": {
+//    "lt": "2019-01-01 00:00:00",
+//    "gt": "2019-01-21 23:59:59",
+    "lte": "2019-01-01 00:00:00",
+    "gte": "2019-01-21 23:59:59"
+  },
+  "data": "mall_id , shop_no "
+}
 
 ###
